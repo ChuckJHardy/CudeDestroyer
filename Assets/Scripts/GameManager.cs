@@ -8,7 +8,9 @@ public class GameManager : MonoBehaviour {
 	public float restartDelay = 1f;
 
 	public int totalLives = 3;
+	public int scorePerBrick = 5;
 	public int livesLeft = 3;
+	public int currentScore = 0;
 
 	public GameObject startText;
 	public GameObject bricksPrefab;
@@ -19,6 +21,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject loserText;
 
 	public Text livesText;
+	public Text scoreText;
 
 	private bool startKeyHit = false;
 	private GameObject bricksClone;
@@ -49,6 +52,11 @@ public class GameManager : MonoBehaviour {
 		}
 
 		return false;
+	}
+
+	public void UpdateStore () {
+		currentScore += (scorePerBrick * livesLeft);
+		scoreText.text = currentScore.ToString ();
 	}
 
 	public void CheckGameStatus () {

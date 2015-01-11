@@ -4,7 +4,7 @@ using System.Collections;
 public class Paddle : MonoBehaviour {
 
 	public float speed = 1f;
-	public float boundary = 15f;
+	public float boundary = 13.5f;
 	private float xPostion;
 
 	void Update () {

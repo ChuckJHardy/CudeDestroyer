@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
 	public static GameManager instance = null;
 
-	public float restartDelay = 3f;
+	public float restartDelay = 1f;
 
 	public int totalLives = 3;
 	public int livesLeft = 3;
@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour {
 	public GameObject startText;
 	public GameObject bricksPrefab;
 	public GameObject paddlePrefab;
+
+	public GameObject tryAgainText;
+	public GameObject winnerText;
 
 	public Text livesText;
 
@@ -25,10 +28,12 @@ public class GameManager : MonoBehaviour {
 
 		Initialize();
 	}
-	
+
 	void Initialize () {
-		bricksClone = Instantiate (bricksPrefab, transform.position, Quaternion.identity) as GameObject;
+		bricksClone = Instantiate (bricksPrefab, new Vector2 (-3, 0), Quaternion.identity) as GameObject;
 		paddleClone = Instantiate (paddlePrefab, new Vector2 (0, -9), Quaternion.identity) as GameObject;
+
+		tryAgainText.SetActive(false);
 	}
 
 	public bool StartGame() {
@@ -45,17 +50,25 @@ public class GameManager : MonoBehaviour {
 		return false;
 	}
 
+	public void CheckGameStatus () {
+		GameObject[] bricks = GameObject.FindGameObjectsWithTag("Brick");
+
+		Debug.Log ("Bricks Count" + bricks.Length);
+
+		if (livesLeft > 0 && bricks.Length == 0) {
+			winnerText.SetActive(true);
+		}
+	}
+
 	public void Lost () {
 		livesLeft--;
 		livesText.text = livesLeft + "/" + totalLives;
 
-		Reset ();
-
-		Invoke ("Initialize", restartDelay);
-	}
-
-	private void Reset () {
 		Destroy (bricksClone);
 		Destroy (paddleClone);
+
+		tryAgainText.SetActive(true);
+
+		Invoke ("Initialize", restartDelay);
 	}
 }

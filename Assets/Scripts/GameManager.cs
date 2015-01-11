@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour {
 
 	public GameObject tryAgainText;
 	public GameObject winnerText;
+	public GameObject loserText;
 
 	public Text livesText;
 
@@ -64,11 +65,23 @@ public class GameManager : MonoBehaviour {
 		livesLeft--;
 		livesText.text = livesLeft + "/" + totalLives;
 
+		Clean ();
+
+		if (livesLeft == 0) {
+			loserText.SetActive(true);
+			Invoke ("Reset", restartDelay);
+		} else {
+			tryAgainText.SetActive(true);
+			Invoke ("Initialize", restartDelay);
+		}
+	}
+
+	public void Clean () {
 		Destroy (bricksClone);
 		Destroy (paddleClone);
+	}
 
-		tryAgainText.SetActive(true);
-
-		Invoke ("Initialize", restartDelay);
+	public void Reset () {
+		Application.LoadLevel (Application.loadedLevel);
 	}
 }

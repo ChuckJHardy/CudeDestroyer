@@ -5,7 +5,7 @@ public class Ball : MonoBehaviour {
 
 	public float speed = 600f;
 
-	private bool startKeyHit = false;
+	private bool shouldStartGame = false;
 	private bool ballInMotion = false;
 	private Rigidbody2D ball;
 
@@ -14,9 +14,9 @@ public class Ball : MonoBehaviour {
 	}
 	
 	void Update () {
-		startKeyHit = Input.GetKeyDown("space");
+		shouldStartGame = GameManager.instance.StartGame();
 
-		if (!ballInMotion && startKeyHit) {
+		if (!ballInMotion && shouldStartGame) {
 			transform.parent = null;
 			ballInMotion = true;
 			ball.isKinematic = false;

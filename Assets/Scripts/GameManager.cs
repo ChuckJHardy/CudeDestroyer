@@ -20,8 +20,11 @@ public class GameManager : MonoBehaviour {
 	public GameObject winnerText;
 	public GameObject loserText;
 
+	public Button resetButton;
+
 	public Text livesText;
 	public Text scoreText;
+	public Text finalScoreText;
 
 	private bool startKeyHit = false;
 	private GameObject bricksClone;
@@ -38,6 +41,8 @@ public class GameManager : MonoBehaviour {
 		paddleClone = Instantiate (paddlePrefab, new Vector2 (0, -9), Quaternion.identity) as GameObject;
 
 		tryAgainText.SetActive(false);
+
+		resetButton.onClick.AddListener(() => { Reset (); });
 	}
 
 	public bool StartGame() {
@@ -77,7 +82,11 @@ public class GameManager : MonoBehaviour {
 
 		if (livesLeft == 0) {
 			loserText.SetActive(true);
-			Invoke ("Reset", restartDelay);
+
+			finalScoreText.text = "Final Score: " + currentScore.ToString ();
+			finalScoreText.gameObject.SetActive(true);
+
+			resetButton.gameObject.SetActive(true);
 		} else {
 			tryAgainText.SetActive(true);
 			Invoke ("Initialize", restartDelay);
